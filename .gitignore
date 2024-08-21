@@ -1,3 +1,7 @@
+# Ignore OAuth tokens and credentials files
+tokens.json
+credentials.json
+
 # Miscellaneous
 *.class
 *.log
