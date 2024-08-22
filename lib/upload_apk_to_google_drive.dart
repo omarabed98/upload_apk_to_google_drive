@@ -21,7 +21,7 @@ Future<void> saveTokens(AccessCredentials credentials) async {
   // The tokens.json file is used to store OAuth 2.0 tokens for future use.
   // This file will store access and refresh tokens after the first successful authentication.
   // Note: For security reasons, this file should not be committed to the repository.
-  
+
   final file = File('tokens.json');
   await file.writeAsString(jsonEncode(credentials.toJson()));
 }
@@ -30,7 +30,7 @@ Future<AccessCredentials?> loadTokens() async {
   try {
     // The tokens.json file is used to retrieve stored OAuth 2.0 tokens.
     // Note: For security reasons, this file should not be committed to the repository.
-    
+
     final file = File('tokens.json');
     final contents = await file.readAsString();
     return AccessCredentials.fromJson(jsonDecode(contents));
@@ -132,10 +132,42 @@ Future<void> uploadToGoogleDrive() async {
 
   // Send Slack message
   const webhookUrl =
-      'https://hooks.slack.com/services/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';
+      'https://hooks.slack.com/services/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';
+
+  final String currentDateTime =
+      DateFormat('EEE dd MMM hh:mm a yyyy').format(DateTime.now());
+
   final message = {
-    'text':
-        'APK has been built and uploaded! [Download here](https://drive.google.com/file/d/${response.id}/view?usp=sharing)'
+    'text': '''
+------------------------------------------------------------------
+*Subject: New APK Release Notification*
+
+Dear Team,
+
+I hope this message finds you well.
+
+I would like to inform you that a new version of the APK has been successfully built and uploaded as of *$currentDateTime*. You can download the updated APK using the following link:
+
+<https://drive.google.com/file/d/${response.id}/view?usp=sharing|Download New APK>
+
+Kindly review the new version at your earliest convenience. Your feedback is invaluable to us, so please conduct thorough testing and let me know if there are any issues or further modifications needed. Your time and effort in this testing phase are greatly appreciated.
+
+Thank you very much for your attention to this matter and for your continued cooperation.
+
+Best regards,
+
+Omar Abed  
+Flutter Developer  
+
+<tel:00962791300360|00962791300360>  
+<mailto:oabed7860@gmail.com|oabed7860@gmail.com>  
+<mailto:omar.a82@yahoo.com|omar.a82@yahoo.com>
+  ''',
+    'design': '''
+────────────────────────────
+          *New APK Release*
+────────────────────────────
+  '''
   };
 
   final slackResponse = await http.post(
